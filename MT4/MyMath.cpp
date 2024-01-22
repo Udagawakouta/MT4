@@ -1,6 +1,7 @@
 ﻿#include "MyMath.h"
 #include <cmath>
 #include <Novice.h>
+#include "assert.h"
 
 // 加算
 Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2) {
@@ -164,25 +165,37 @@ void MatrixScreenPrintf(int x, int y, const Matrix4x4& matrix, const char* label
 }
 
 Matrix4x4 DirectionToDirection(const Vector3& from, const Vector3& to) {
-	// 正規化
-	Vector3 n;
-	// 真逆のベクトルかをチェック
-	float dotFrom2to = Dot(from, to);
-	// 正規化
-	n = Normalize(Cross(from, to));
 
-	// 真逆なら反転
-	if (dotFrom2to == -1) {
-		n = { n.y, -n.x, 0 };
-	}
-
+	Vector3 cross = Cross(from, to);
 	float cos = Dot(from, to);
 	float sin = Length(Cross(from, to));
 
+	float epsilon = 1e-6f;
+	Vector3 axis;
+	if (std::abs(cos + 1.0f) <= epsilon) {
+		if (std::abs(from.x) > epsilon || std::abs(from.y) > epsilon) {
+			axis.x = from.y;
+			axis.y = -from.x;
+			axis.z = 0.0f;
+		}
+		else if (std::abs(from.x) > epsilon || std::abs(from.z) > epsilon) {
+			axis.x = from.z;
+			axis.y = 0.0f;
+			axis.z = -from.z;
+		}
+		else {
+			assert(false);
+		}
+		axis = Normalize(axis);
+	}
+	else {
+		axis = Normalize(cross);
+	}
+
 	Matrix4x4 result = {
-		n.x * n.x * (1 - cos) + cos,	   n.x * n.y * (1 - cos) + n.z * sin, n.x * n.z * (1 - cos) - n.y * sin,0,
-		n.x * n.y * (1 - cos) - n.z * sin, n.y * n.y * (1 - cos) + cos,		  n.y * n.z * (1 - cos) + n.x * sin,0,
-		n.x * n.z * (1 - cos) + n.y * sin, n.y * n.z * (1 - cos) - n.x * sin, n.z * n.z * (1 - cos) + cos,0,
+		axis.x * axis.x * (1 - cos) + cos,	   axis.x * axis.y * (1 - cos) + axis.z * sin, axis.x * axis.z * (1 - cos) - axis.y * sin,0,
+		axis.x * axis.y * (1 - cos) - axis.z * sin, axis.y * axis.y * (1 - cos) + cos,		  axis.y * axis.z * (1 - cos) + axis.x * sin,0,
+		axis.x * axis.z * (1 - cos) + axis.y * sin, axis.y * axis.z * (1 - cos) - axis.x * sin, axis.z * axis.z * (1 - cos) + cos,0,
 		0,0,0,1
 	};
 
