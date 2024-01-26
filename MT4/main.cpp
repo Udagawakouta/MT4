@@ -47,13 +47,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		ImGui::Begin("Quaternion");
-		ImGui::Text("Identity         : %f  %f  %f  %f", identity.x, identity.y, identity.z, identity.w);
-		ImGui::Text("Conjugate        : %f  %f  %f  %f", conj.x, conj.y, conj.z, conj.w);
-		ImGui::Text("Inverse          : %f  %f  %f  %f", inv.x, inv.y, inv.z, inv.w);
-		ImGui::Text("Normalize        : %f  %f  %f  %f", normal.x, normal.y, normal.z, normal.w);
-		ImGui::Text("Multiply(q1, q2) : %f  %f  %f  %f", mul1.x, mul1.y, mul1.z, mul1.w);
-		ImGui::Text("Multiply(q2, q1) : %f  %f  %f  %f", mul2.x, mul2.y, mul2.z, mul2.w);
-		ImGui::Text("Norm             : %f", norm);
+		ImGui::Text("Identity         : %.2f  %.2f  %.2f  %.2f", identity.x, identity.y, identity.z, identity.w);
+		ImGui::Text("Conjugate        : %.2f  %.2f  %.2f  %.2f", conj.x, conj.y, conj.z, conj.w);
+		ImGui::Text("Inverse          : %.2f  %.2f  %.2f  %.2f", inv.x, inv.y, inv.z, inv.w);
+		ImGui::Text("Normalize        : %.2f  %.2f  %.2f  %.2f", normal.x, normal.y, normal.z, normal.w);
+		ImGui::Text("Multiply(q1, q2) : %.2f  %.2f  %.2f  %.2f", mul1.x, mul1.y, mul1.z, mul1.w);
+		ImGui::Text("Multiply(q2, q1) : %.2f  %.2f  %.2f  %.2f", mul2.x, mul2.y, mul2.z, mul2.w);
+		ImGui::Text("Norm             : %.2f", norm);
 		ImGui::End();
 
 		///
